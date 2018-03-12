@@ -1,4 +1,8 @@
 from setuptools import setup, find_packages
+import sys
+
+if sys.version_info < (3, 3):
+    sys.exit('Sorry, Python < 3.3 is not supported')
 
 setup(
     author="David Chudzicki",

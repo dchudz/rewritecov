@@ -22,7 +22,7 @@ type of modification on a node with the same line number. (This is too
 restrictive. We might as well let it try different nodes on the same
 line!)
 
-`rewritecov` stops trying rewrites if it ever sees a functon calls
+`rewritecov` stops trying rewrites if it ever sees a functon called
 `test_<anything>`. This signals that we've reached the "testing" section
 of the code, where checking coverage doesn't make sense like it does for
 the "implementation" section.
@@ -31,16 +31,23 @@ the "implementation" section.
 ## Motivation
 
 One time I had to work on a package that was mostly a bunch of
-regexes. The way it was structured, if you ran any of the functions, you
-ran all of the lines in the function. I didn't add much testing, but when
-I was done we still had around "90% coverage".
+regexes. That was sad for many reasons, but one of them was that
+codecov reported 90% coverage with hardly any testing.
 
-In fact, the thing had hardly any testing at all.
+The way it was structured, if you ran any of the functions, you
+ran all of the lines in that function. The fact that the regexes executed
+did nothing to tell us that it even mattered if they were there. I
+didn't add much testing, but when I was done we still had around
+"90% coverage".
 
 
 ## Usage and Example
 
-You can install with `pip install git+git://github.com/dchudz/rewritecov.git`.
+You can install it with:
+
+ ```
+ pip install git+git://github.com/dchudz/rewritecov.git
+ ```
 
 Then given this code file `example.py`:
 
@@ -69,7 +76,7 @@ test_it()
 ... we can run:
 
 ```
-rewritecov example.py
+$rewritecov example.py
 ```
 
 ```
@@ -84,7 +91,9 @@ what's going on along the way.
 ## Careful!
 
 Given that `rewritecov` runs your code after modifications, it could
-have very unpleasant consequences
+have very unpleasant consequences. The first time I tried it with
+CPython 2.7, it segfaulted. But it could do much worse to you,
+depending on the code you try it with!
 
 ## Improvements
 
@@ -116,5 +125,3 @@ by previous tests, and not bother rewriting anything we already know is
 important to the tests.
 
 - More rewrite rules!
-
-- Report coverage in a more standard format.
