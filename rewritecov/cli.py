@@ -5,7 +5,7 @@ import logging
 import sys
 import click
 
-from rewritecov.rewritecov import find_uncovered, DELETE, NONIFY
+from rewritecov import find_uncovered, DELETE, NONIFY
 
 
 def format_uncovereds(uncovereds, description):

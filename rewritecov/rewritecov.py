@@ -1,7 +1,7 @@
 import ast
 import logging
 import traceback
-from typing import NamedTuple
+from collections import namedtuple
 
 DELETE = 'delete'
 NONIFY = 'nonify'
@@ -10,10 +10,7 @@ NONIFY = 'nonify'
 def exec_tree(tree):
     exec(compile(tree, filename="<ast>", mode="exec"), {})
 
-
-class Rewrite(NamedTuple):
-    lineno: int
-    type: str
+Rewrite = namedtuple('Rewrite', ['lineno', 'type'])
 
 
 def is_test_node(node):
@@ -80,7 +77,9 @@ def find_uncovered(code):
     try:
         exec_tree(ast.parse(code))  # Unmodified tree shouldn't have errors.
     except Exception as e:
-        raise ValueError('You gave me a file that already has errors!') from e
+
+        raise ValueError('%s\n\n You gave me a file that already has errors!' %
+                         traceback.format_exc())
 
     rewrites_no_fail = set()
     rewrites_tried = set()
